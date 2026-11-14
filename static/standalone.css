@@ -1,0 +1,76 @@
+/* ==========================================================================
+ * 舞小枫 · 舞立方助手（独立网页版）页面外壳样式
+ *
+ * style.css 负责 .dfb-root 内部的一切；本文件只处理「没有论坛模板」时
+ * body / 页面背景 / 页脚这些外壳，避免和插件版样式互相影响。
+ * ========================================================================== */
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 18px 18px 0;
+  background:
+    radial-gradient(900px 480px at 8% -8%, rgba(255, 122, 156, .18), transparent 60%),
+    radial-gradient(880px 520px at 104% 0%, rgba(124, 92, 255, .16), transparent 55%),
+    #f7f8fc;
+  color: #1f2430;
+  font-family: "PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei",
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+}
+
+/* 外层容器不再需要论坛页边距，改为居中 + 柔和投影 */
+.dfb-root {
+  margin: 0 auto 18px;
+  box-shadow: 0 20px 60px rgba(31, 36, 48, .08);
+}
+
+/* 页脚 */
+.dfb-page-foot {
+  max-width: 1180px;
+  margin: 0 auto 26px;
+  padding: 0 8px;
+  color: #8a91a3;
+  font-family: "PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei",
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+  font-size: 12px;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.dfb-page-foot-sep {
+  margin: 0 6px;
+  opacity: .6;
+}
+
+/* 加载遮罩位于 body 下，不在 .dfb-root 内，补一条 hidden 兜底 */
+.dfb-loading[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 760px) {
+  body {
+    padding: 0;
+  }
+
+  /* 手机上「刷新状态」换行后靠右，不要顶在标题下面 */
+  .dfb-root .dfb-topbar-actions {
+    margin-left: auto;
+  }
+
+  .dfb-root {
+    margin-bottom: 0;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .dfb-page-foot {
+    margin: 14px auto 20px;
+    font-size: 11px;
+  }
+}

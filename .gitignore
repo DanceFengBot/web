@@ -1,0 +1,45 @@
+# 运行时数据（不要提交到 GitHub）
+data/*
+!data/.gitignore
+!data/.htaccess
+!data/index.html
+!data/admin.example.php
+!data/changelog.json
+!data/README.txt
+
+# 登录凭证、后台密码、站点/留言/评价/排除数据
+data/state.php
+data/state.lock
+data/admin.php
+data/secret.php
+data/announcement.php
+data/site.php
+data/messages.php
+data/machine_reviews.php
+data/machine_exclusions.php
+data/client_ids.json
+data/client_ids.txt
+data/covers.php
+data/ratio_cache.php
+
+# 缓存
+data/image_cache/
+data/ratio_image_cache/
+
+# 用户上传的场地评价照片
+assets/machine_reviews/*
+!assets/machine_reviews/.htaccess
+!assets/machine_reviews/index.html
+
+# 安装包不进入 Git 仓库
+download/*.apk
+download/*.ipa
+download/*.zip
+
+# 本地环境
+.env
+.env.*
+.DS_Store
+Thumbs.db
+*.log
+_*

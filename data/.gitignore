@@ -1,0 +1,7 @@
+*
+!.gitignore
+!.htaccess
+!index.html
+!admin.example.php
+!changelog.json
+!README.txt

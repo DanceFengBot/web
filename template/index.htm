@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f7f8fc">
+<script>
+/* 尽早应用主题，避免刷新时先闪一下亮色 */
+try {
+  if (window.localStorage.getItem('dfb_theme') === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+} catch (e) {}
+</script>
+<meta name="description" content="舞小枫 · 舞立方助手：个人信息、战力分析、分数列表、机台查询与兑换码。">
+<title>{$dfb_title}</title>
+<link rel="icon" type="image/x-icon" href="{$dfb_static}favicon.ico">
+<link rel="stylesheet" type="text/css" href="{$dfb_static}style.css?v=2026.11.16">
+<link rel="stylesheet" type="text/css" href="{$dfb_static}standalone.css?v=2026.11.16">
+</head>
+<body>
+
+<div class="dfb-root" id="dfbRoot">
+  <div class="dfb-shell">
+
+    <!-- ============================== 侧边栏 ============================== -->
+    <aside class="dfb-sidebar">
+      <div class="dfb-brand">
+        <span class="dfb-brand-logo" aria-hidden="true">
+          <img src="static/logo.jpg" width="50" height="50"></img>
+        </span>
+        <div class="dfb-brand-text">
+          <strong>舞小枫</strong>
+          <small>舞立方助手 · 网页版</small>
+        </div>
+        <button class="dfb-menu-toggle" id="dfbMenuToggle" type="button" aria-label="展开菜单">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+      <div class="dfb-user-card">
+        <div class="dfb-user-head">
+          <span>当前用户</span>
+          <span class="dfb-dot" id="dfbUserDot" data-state="off"></span>
+        </div>
+        <div class="dfb-user-name" id="dfbUserName">游客</div>
+        <div class="dfb-user-hint" id="dfbUserHint">正在读取登录状态…</div>
+        <div class="dfb-user-actions" id="dfbUserActions"></div>
+      </div>
+
+      <nav class="dfb-nav" id="dfbNav"></nav>
+    </aside>
+
+    <!-- ============================== 主内容区 ============================== -->
+    <main class="dfb-content">
+      <header class="dfb-topbar">
+        <div class="dfb-topbar-text">
+          <h2 class="dfb-page-title" id="dfbPageTitle">功能总览</h2>
+          <p class="dfb-page-desc" id="dfbPageDesc">选择一个功能开始使用吧~</p>
+        </div>
+        <div class="dfb-topbar-actions">
+          <button class="dfb-btn dfb-ghost" id="dfbLangBtn" data-no-i18n="1" type="button">EN</button>
+          <button class="dfb-btn dfb-ghost" id="dfbThemeBtn" type="button">🌙 暗色</button>
+          <button class="dfb-btn dfb-ghost" id="dfbRefreshBtn" type="button">刷新状态</button>
+        </div>
+      </header>
+
+      <section class="dfb-announcement" id="dfbAnnouncement" hidden></section>
+
+      <section class="dfb-panel" id="dfbPanel"></section>
+    </main>
+
+    <!-- 手机端底部导航：横向可拖动 / 滑动 -->
+    <nav class="dfb-mobile-nav" id="dfbMobileNav" aria-label="移动端导航" hidden></nav>
+
+  </div>
+</div>
+
+<div class="dfb-toasts" id="dfbToasts"></div>
+
+<!-- Loading 遮罩：默认 hidden。样式表里必须保证 [hidden] 生效，
+     否则遮罩会一直盖在页面上，表现为「主页卡在加载界面」 -->
+<div class="dfb-loading" id="dfbLoading" hidden>
+  <div class="dfb-loading-box">
+    <div class="dfb-spinner"></div>
+    <p id="dfbLoadingText">小枫正在计算中,等一下下…</p>
+  </div>
+</div>
+
+<footer class="dfb-page-foot">
+  <span>{$dfb_site_name} · 独立网页版</span>
+  <span class="dfb-page-foot-sep">·</span>
+  <span>Web 版本 {$dfb_version}</span>
+  <span class="dfb-page-foot-sep">·</span>
+  <span>数据来自舞立方官方接口</span>
+</footer>
+
+<noscript>
+  <p style="text-align:center;color:#6b7280">本页面需要启用 JavaScript 才能使用。</p>
+</noscript>
+
+<script type="text/javascript">
+/* 身份、权限、接口地址由 PHP 注入；JSON 已把 < > & ' " 转成 \uXXXX，
+   不会破坏内联脚本。 */
+window.DFB = {$dfb_json};
+</script>
+<script type="text/javascript" charset="utf-8" src="{$dfb_static}i18n.js?v=2026.11.16"></script>
+<script type="text/javascript" charset="utf-8" src="{$dfb_static}app.js?v=2026.11.16"></script>
+
+</body>
+</html>
