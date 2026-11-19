@@ -2195,6 +2195,8 @@
       var item = machine.__machine;
       activeMachine = machine;
       activeDetail = detail;
+      detail.hidden = false;
+      detail.style.display = 'block';
       detail.innerHTML = '';
       detail.appendChild(el('div', { class: 'dfb-meta', text: '正在读取评价…' }));
       return request('machine.review.list', { params: { terminalId: item.terminalId } }).then(function (data) {
@@ -2258,14 +2260,16 @@
     }
 
     function machineNode(item) {
-      var detail = el('div', { class: 'dfb-machine-detail', hidden: true });
+      var detail = el('div', { class: 'dfb-machine-detail' });
+      detail.style.display = 'none';
       var toggle = el('button', {
         class: 'dfb-btn dfb-ghost dfb-btn-sm',
         type: 'button',
         text: '查看评价 / 写评价',
         onclick: function () {
-          var opening = !!detail.hidden;
-          detail.hidden = !opening;
+          var opening = detail.style.display === 'none';
+          detail.hidden = false;
+          detail.style.display = opening ? 'block' : 'none';
           if (opening) {
             reviewImages = [];
             loadReviews(node, detail);
