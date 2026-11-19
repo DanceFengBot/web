@@ -2273,6 +2273,8 @@
           detail.removeAttribute('hidden');
           detail.style.setProperty('display', opening ? 'block' : 'none', 'important');
           if (opening) {
+            detail.innerHTML = '';
+            detail.appendChild(el('div', { class: 'dfb-meta', text: '正在读取评价…' }));
             reviewImages = [];
             loadReviews(node, detail);
           }
