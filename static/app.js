@@ -2196,7 +2196,8 @@
       activeMachine = machine;
       activeDetail = detail;
       detail.hidden = false;
-      detail.style.display = 'block';
+      detail.removeAttribute('hidden');
+      detail.style.setProperty('display', 'block', 'important');
       detail.innerHTML = '';
       detail.appendChild(el('div', { class: 'dfb-meta', text: '正在读取评价…' }));
       return request('machine.review.list', { params: { terminalId: item.terminalId } }).then(function (data) {
@@ -2269,7 +2270,8 @@
         onclick: function () {
           var opening = detail.style.display === 'none';
           detail.hidden = false;
-          detail.style.display = opening ? 'block' : 'none';
+          detail.removeAttribute('hidden');
+          detail.style.setProperty('display', opening ? 'block' : 'none', 'important');
           if (opening) {
             reviewImages = [];
             loadReviews(node, detail);
