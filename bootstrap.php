@@ -21,7 +21,7 @@ if(!defined('DFB_ROOT_DIR')) {
 	define('DFB_ROOT_DIR', __DIR__.'/');
 }
 if(!defined('DFB_VERSION')) {
-	define('DFB_VERSION', '2026.11.05');
+	define('DFB_VERSION', '2026.11.20');
 }
 
 /* 生产环境默认不回显错误：任何 Warning 混进 HTML / JSON 都会破坏页面 */

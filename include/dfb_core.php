@@ -29,7 +29,7 @@ if(!defined('DFB_PLUGIN_DIR')) {
 	define('DFB_PLUGIN_DIR', DFB_ROOT_DIR);
 }
 if(!defined('DFB_VERSION')) {
-	define('DFB_VERSION', '2026.11.05');
+	define('DFB_VERSION', '2026.11.20');
 }
 /* 舞立方官方接口根地址 */
 if(!defined('DFB_CUBE_BASE')) {
