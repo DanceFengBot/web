@@ -18,6 +18,14 @@
 - 数据统计：个人胜率、团队胜率、游玩年龄、游戏段位、游玩次数、通过歌曲、累计加币
 - 兑换自制谱兑换码
 
+### 创作者（谱师）
+
+- 创作者信息：创作等级、创作经验、创作金币、创作者认证状态（普通账号会提示尚未开通）
+- 我的自制谱：已发布作品列表，支持翻页，可直接为某一首生成兑换码
+- 批量生成兑换码：为自己的谱面生成 1~50 个兑换码，页面提供一键复制
+- 兑换码全家桶：为所有已发布自制谱各生成 1 个兑换码（最多 30 首）
+- 兑换码属于敏感信息，页面会提示仅可使用一次、请勿公开分享
+
 ### 查找机台
 
 - 按地区查询附近舞立方机台
@@ -34,14 +42,12 @@
 - 站点公告：纯文本、保留换行、可设置用户是否可关闭
 - 站点开关：关闭后非管理员只能看公告、登录和退出
 - 留言板：登录用户可发言，管理员可删除
-- 更新日志
 - 后台管理：
   - 后台密码设置 / 修改 / 锁定
   - 站点开关
   - 公告发布 / 清除
   - 已登录用户列表
   - Token 管理与默认 Token
-  - 客户端 ID 管理
   - 留言删除
   - 场地评价删除
   - 场地排除审核 / 直接排除 / 恢复
@@ -51,9 +57,10 @@
 
 - 亮色 / 暗色主题，本地记忆
 - 中文 / English 切换，本地记忆
-- 手机端底部导航，可横向拖动 / 滑动
-- 手机端开屏默认显示「个人信息」
-- 电脑端左侧栏，手机端底部导航
+- 手机端底部导航，可横向拖动 / 滑动，按当前用户组权限列出全部可用功能
+- 电脑端左侧栏、手机端底部导航；默认进入「个人信息」，不再有「更多 / 功能总览」页
+- 个人信息页下方提供「刷新信息」「退出登录」
+- 每个功能页底部显示当前 Web 版本号
 - Web 与 App 手机端保持相近的顶部品牌区、页面标题和底部导航结构
 
 ### 图片生成
@@ -157,7 +164,6 @@ web/
 然后按需配置：
 
 ```php
-'dfb_client_ids' => '',
 'dfb_gaode_key'  => '',
 'cors_origin'    => '',
 'admin_enabled'  => true,
@@ -168,17 +174,7 @@ web/
 
 确保 `data/` 存在且可写。首次访问会自动创建部分缓存目录。
 
-如果使用扫码登录，准备客户端 ID：
-
-- 方式一：在 `config.php` 的 `dfb_client_ids` 填写；
-- 方式二：把文件放到：
-
-```text
-data/client_ids.json
-data/client_ids.txt
-```
-
-`data/client_ids.json` 支持数组或对象格式；`data/client_ids.txt` 一行一个。
+扫码登录不需要客户端 ID：后端会调用不带 `id` 的 `GetQrCode` 自动创建二维码会话，并用返回的 `ID` 作为临时的 `client_id`。
 
 ### 3.4 访问页面
 
@@ -216,7 +212,6 @@ https://your-domain/
 | --- | --- | --- |
 | `dfb_timeout` | 接口超时秒数 | `20` |
 | `dfb_ratio_cache_ttl` | 战力数据缓存秒数，0 为不缓存 | `45` |
-| `dfb_client_ids` | 扫码登录客户端 ID | 空 |
 | `dfb_gaode_key` | 高德地图 Web 服务 Key，查找机台需要 | 空 |
 
 ### 图片缓存
@@ -283,6 +278,7 @@ web/
 │   ├── dfb_core.php              核心：配置、JSON、登录状态、后台、工具
 │   ├── dfb_cube.php              舞立方数据抓取与解析
 │   ├── dfb_cube_ext.php          机台、兑换码等扩展业务
+│   ├── dfb_creator.php           创作者信息 / 自制谱 / 兑换码生成
 │   ├── dfb_actions.php           接口动作表与处理函数
 │   ├── dfb_announcement.php      公告
 │   ├── dfb_site.php              站点开关
@@ -415,7 +411,7 @@ Content-Type: application/json
 | feature | 说明 |
 | --- | --- |
 | `query` | 机台查询、兑换码、场地评价等查询类 |
-| `data` | 个人信息、战力、分数、战队、留言、更新日志等 |
+| `data` | 个人信息、战力、分数、战队、创作者、留言、更新日志等 |
 | `admin` | 后台管理动作，需要管理员资格与密码解锁 |
 
 ### 7.4 主要动作
@@ -476,6 +472,15 @@ gain.code
 token.show
 token.default.show
 token.refresh
+```
+
+#### 创作者（谱师）
+
+```text
+maker.info        创作者信息（等级 / 经验 / 金币 / 认证状态）
+maker.music       已发布自制谱（?page=N）
+maker.code        生成兑换码（POST musicId / count）
+maker.family      兑换码全家桶（POST）
 ```
 
 #### 图片（PNG 二进制）
@@ -675,7 +680,6 @@ App 的 APK 下载地址由 `app-update.json` 和 `download/` 目录共同维护
 - [ ] `data/ratio_image_cache/` 可写
 - [ ] `config.php` 中 `site_name`、`timezone` 正确
 - [ ] `admin_user_ids` 已配置
-- [ ] `dfb_client_ids` 或 `data/client_ids.json` 已配置
 - [ ] `dfb_gaode_key` 已配置（需要查找机台时）
 - [ ] `debug => false`
 - [ ] 后台密码已设置
@@ -725,8 +729,7 @@ App 的 APK 下载地址由 `app-update.json` 和 `download/` 目录共同维护
 
 ### 扫码登录没有二维码
 
-- 检查 `dfb_client_ids`；
-- 检查 `data/client_ids.json` / `client_ids.txt`；
+- 扫码登录使用动态会话 ID，无需客户端 ID；
 - 检查 `api.php` 是否能访问舞立方接口；
 - 检查 `dfb_timeout`。
 
